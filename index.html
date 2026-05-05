@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AuthVault — Secure Authentication</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════ ANIMATED BACKGROUND ═══════════ -->
+  <div class="bg-canvas">
+    <div class="mesh-blob blob-1"></div>
+    <div class="mesh-blob blob-2"></div>
+    <div class="mesh-blob blob-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- ═══════════ THEME TOGGLE ═══════════ -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <span class="theme-icon sun">☀</span>
+    <span class="theme-icon moon">☽</span>
+  </button>
+
+  <!-- ═══════════ TOAST CONTAINER ═══════════ -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ═══════════ MAIN AUTH CARD ═══════════ -->
+  <main class="auth-wrapper">
+
+    <!-- Brand Header -->
+    <div class="brand-header">
+      <div class="brand-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M14 2L4 7V14C4 19.5 8.5 24.7 14 26C19.5 24.7 24 19.5 24 14V7L14 2Z" stroke="currentColor" stroke-width="2" fill="none"/>
+          <path d="M10 14L13 17L18 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="brand-name">AuthVault</span>
+    </div>
+
+    <!-- Tab Switcher -->
+    <div class="tab-switcher" role="tablist">
+      <button class="tab-btn active" id="tabLogin" role="tab" aria-selected="true" onclick="switchTab('login')">Sign In</button>
+      <button class="tab-btn" id="tabRegister" role="tab" aria-selected="false" onclick="switchTab('register')">Sign Up</button>
+      <div class="tab-indicator"></div>
+    </div>
+
+    <!-- ─── CARD CONTAINER (slides) ─── -->
+    <div class="card-viewport">
+
+      <!-- ════ LOGIN PANEL ════ -->
+      <section class="auth-panel" id="panelLogin" role="tabpanel" aria-labelledby="tabLogin">
+        <div class="panel-heading">
+          <h1>Welcome back</h1>
+          <p>Sign in to continue to your account</p>
+        </div>
+
+        <!-- Social Login (UI only) -->
+        <div class="social-row">
+          <button class="social-btn" aria-label="Continue with Google" onclick="socialLogin('Google')">
+            <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+            Google
+          </button>
+          <button class="social-btn" aria-label="Continue with GitHub" onclick="socialLogin('GitHub')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+          </button>
+        </div>
+
+        <div class="divider"><span>or continue with email</span></div>
+
+        <!-- Login Form -->
+        <form id="loginForm" novalidate onsubmit="handleLogin(event)">
+          <!-- Email -->
+          <div class="field-group" id="lg-email-group">
+            <label for="lgEmail">Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon">✉</span>
+              <input type="email" id="lgEmail" name="email" placeholder="you@example.com"
+                     autocomplete="email" oninput="validateLoginField('lgEmail')" />
+            </div>
+            <span class="field-msg" id="lgEmailMsg"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="field-group" id="lg-password-group">
+            <label for="lgPassword">Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="lgPassword" name="password" placeholder="Enter your password"
+                     autocomplete="current-password" oninput="validateLoginField('lgPassword')" />
+              <button type="button" class="eye-btn" onclick="togglePassword('lgPassword', this)" aria-label="Toggle password">
+                <span class="eye-icon">👁</span>
+              </button>
+            </div>
+            <span class="field-msg" id="lgPasswordMsg"></span>
+          </div>
+
+          <!-- Remember + Forgot -->
+          <div class="login-options">
+            <label class="checkbox-wrap">
+              <input type="checkbox" id="rememberMe" />
+              <span class="checkmark"></span>
+              Remember me
+            </label>
+            <button type="button" class="link-btn" onclick="switchTab('forgot')">Forgot password?</button>
+          </div>
+
+          <button type="submit" class="submit-btn" id="loginBtn">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+      </section>
+
+      <!-- ════ REGISTER PANEL ════ -->
+      <section class="auth-panel hidden" id="panelRegister" role="tabpanel" aria-labelledby="tabRegister">
+        <div class="panel-heading">
+          <h1>Create account</h1>
+          <p>Join thousands of users today</p>
+        </div>
+
+        <!-- Social Login -->
+        <div class="social-row">
+          <button class="social-btn" onclick="socialLogin('Google')">
+            <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+            Google
+          </button>
+          <button class="social-btn" onclick="socialLogin('GitHub')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+          </button>
+        </div>
+
+        <div class="divider"><span>or register with email</span></div>
+
+        <!-- Register Form -->
+        <form id="registerForm" novalidate onsubmit="handleRegister(event)">
+          <!-- Full Name + Username (2-col on desktop) -->
+          <div class="two-col">
+            <div class="field-group" id="rg-name-group">
+              <label for="rgName">Full Name</label>
+              <div class="input-wrap">
+                <span class="input-icon">👤</span>
+                <input type="text" id="rgName" name="fullname" placeholder="John Doe"
+                       autocomplete="name" oninput="validateRegisterField('rgName')" />
+              </div>
+              <span class="field-msg" id="rgNameMsg"></span>
+            </div>
+
+            <div class="field-group" id="rg-username-group">
+              <label for="rgUsername">Username</label>
+              <div class="input-wrap">
+                <span class="input-icon">@</span>
+                <input type="text" id="rgUsername" name="username" placeholder="johndoe"
+                       autocomplete="username" oninput="validateRegisterField('rgUsername')" />
+              </div>
+              <span class="field-msg" id="rgUsernameMsg"></span>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="field-group" id="rg-email-group">
+            <label for="rgEmail">Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon">✉</span>
+              <input type="email" id="rgEmail" name="email" placeholder="you@example.com"
+                     autocomplete="email" oninput="validateRegisterField('rgEmail')" />
+            </div>
+            <span class="field-msg" id="rgEmailMsg"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="field-group" id="rg-password-group">
+            <label for="rgPassword">Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="rgPassword" name="password" placeholder="Create a strong password"
+                     autocomplete="new-password" oninput="handlePasswordInput()" />
+              <button type="button" class="eye-btn" onclick="togglePassword('rgPassword', this)" aria-label="Toggle password">
+                <span class="eye-icon">👁</span>
+              </button>
+            </div>
+            <span class="field-msg" id="rgPasswordMsg"></span>
+
+            <!-- Password Strength Meter -->
+            <div class="strength-meter" id="strengthMeter">
+              <div class="strength-bar-track">
+                <div class="strength-bar-fill" id="strengthBarFill"></div>
+              </div>
+              <span class="strength-label" id="strengthLabel">Strength</span>
+            </div>
+            <!-- Strength Hints -->
+            <ul class="strength-hints" id="strengthHints">
+              <li class="hint-item" id="hint-upper">Uppercase letter (A-Z)</li>
+              <li class="hint-item" id="hint-lower">Lowercase letter (a-z)</li>
+              <li class="hint-item" id="hint-number">Number (0-9)</li>
+              <li class="hint-item" id="hint-special">Special character (!@#$…)</li>
+              <li class="hint-item" id="hint-length">Minimum 8 characters</li>
+            </ul>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="field-group" id="rg-confirm-group">
+            <label for="rgConfirm">Confirm Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔑</span>
+              <input type="password" id="rgConfirm" name="confirm" placeholder="Repeat your password"
+                     autocomplete="new-password" oninput="validateRegisterField('rgConfirm')" />
+              <button type="button" class="eye-btn" onclick="togglePassword('rgConfirm', this)" aria-label="Toggle password">
+                <span class="eye-icon">👁</span>
+              </button>
+            </div>
+            <span class="field-msg" id="rgConfirmMsg"></span>
+          </div>
+
+          <!-- Terms -->
+          <label class="checkbox-wrap terms-wrap">
+            <input type="checkbox" id="termsCheck" />
+            <span class="checkmark"></span>
+            I agree to the <a href="#" class="link-btn inline">Terms of Service</a> and <a href="#" class="link-btn inline">Privacy Policy</a>
+          </label>
+
+          <button type="submit" class="submit-btn" id="registerBtn">
+            <span class="btn-text">Create Account</span>
+            <span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+      </section>
+
+      <!-- ════ FORGOT PASSWORD PANEL ════ -->
+      <section class="auth-panel hidden" id="panelForgot" role="tabpanel">
+        <div class="panel-heading">
+          <h1>Reset password</h1>
+          <p>We'll send recovery instructions to your email</p>
+        </div>
+
+        <form id="forgotForm" novalidate onsubmit="handleForgot(event)">
+          <div class="field-group" id="fg-email-group">
+            <label for="fgEmail">Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon">✉</span>
+              <input type="email" id="fgEmail" name="email" placeholder="you@example.com"
+                     autocomplete="email" oninput="validateForgotField()" />
+            </div>
+            <span class="field-msg" id="fgEmailMsg"></span>
+          </div>
+
+          <button type="submit" class="submit-btn" id="forgotBtn">
+            <span class="btn-text">Send Reset Link</span>
+            <span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <button type="button" class="back-link" onclick="switchTab('login')">
+          ← Back to Sign In
+        </button>
+      </section>
+
+      <!-- ════ DASHBOARD PANEL (post-login) ════ -->
+      <section class="auth-panel hidden" id="panelDashboard">
+        <div class="dashboard-header">
+          <div class="avatar-ring" id="dashAvatar">JD</div>
+          <div class="dash-info">
+            <h2 id="dashName">John Doe</h2>
+            <span id="dashEmail">john@example.com</span>
+          </div>
+        </div>
+
+        <div class="dash-card-grid">
+          <div class="dash-stat">
+            <span class="stat-value">12</span>
+            <span class="stat-label">Projects</span>
+          </div>
+          <div class="dash-stat">
+            <span class="stat-value">3</span>
+            <span class="stat-label">Active Sessions</span>
+          </div>
+          <div class="dash-stat">
+            <span class="stat-value">98%</span>
+            <span class="stat-label">Security Score</span>
+          </div>
+        </div>
+
+        <div class="session-info">
+          <span class="session-dot"></span>
+          <span>Session active — <span id="sessionTime">just now</span></span>
+        </div>
+
+        <button class="submit-btn logout-btn" onclick="handleLogout()">
+          <span class="btn-text">Sign Out</span>
+        </button>
+      </section>
+
+    </div><!-- /card-viewport -->
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
